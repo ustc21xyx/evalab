@@ -124,7 +124,7 @@ export default async function QuestionDetailPage({ params }: Props) {
                 <div>
                   <dt className="text-sm text-warm-500">标签</dt>
                   <dd className="mt-1 flex flex-wrap gap-1">
-                    {question.tags.map((tag) => (
+                    {question.tags.map((tag: string) => (
                       <Badge key={tag}>{tag}</Badge>
                     ))}
                   </dd>
