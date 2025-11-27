@@ -91,7 +91,7 @@ export default async function EvaluationDetailPage({ params }: Props) {
             {/* 维度分数 */}
             {evaluation.evaluation_scores && evaluation.evaluation_scores.length > 0 && (
               <div className="mt-4 pt-4 border-t border-warm-100 space-y-3">
-                {evaluation.evaluation_scores.map((score) => (
+                {evaluation.evaluation_scores.map((score: { id: string; score: number; scoring_dimensions?: { name: string; max_score: number } | null }) => (
                   <div key={score.id} className="flex justify-between items-center">
                     <span className="text-sm text-warm-600">
                       {score.scoring_dimensions?.name}
