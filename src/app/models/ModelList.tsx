@@ -47,7 +47,7 @@ export async function ModelList() {
             </div>
           </div>
           {model.description && (
-            <p className="text-sm text-warm-500 mt-3 pt-3 border-t border-warm-50">
+            <p className="text-sm text-warm-500 mt-3 pt-3 border-t border-warm-50 whitespace-pre-wrap">
               {model.description}
             </p>
           )}
