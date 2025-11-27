@@ -51,7 +51,7 @@ export async function CategoryStatsTable() {
         />
       ) : (
         <div className="space-y-6">
-          {Object.values(groupedByCategory).map(({ category, stats }) => (
+          {(Object.values(groupedByCategory) as { category: typeof categories[0]; stats: typeof filteredStats }[]).map(({ category, stats }) => (
             <div key={category.id}>
               <div className="flex items-center gap-2 mb-3">
                 <div
