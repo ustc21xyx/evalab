@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation'
-import { PageHeader, Card, CardHeader, Badge, Button, ScoreDisplay } from '@/components/ui'
+import { PageHeader, Card, CardHeader, Badge, Button, ScoreDisplay, Markdown } from '@/components/ui'
 import { getEvaluation } from '@/app/actions/evaluations'
 import { Edit, Trash2 } from 'lucide-react'
 import Link from 'next/link'
@@ -60,9 +60,7 @@ export default async function EvaluationDetailPage({ params }: Props) {
           {/* AI 回答 */}
           <Card>
             <CardHeader title="AI 回答" />
-            <p className="whitespace-pre-wrap text-warm-600">
-              {evaluation.answer}
-            </p>
+            <Markdown>{evaluation.answer}</Markdown>
           </Card>
 
           {/* 评语 */}
