@@ -31,10 +31,16 @@ export async function EvaluationList() {
       {evaluations.map((evaluation) => (
         <Link key={evaluation.id} href={`/evaluate/${evaluation.id}`}>
           <Card hover className="flex items-center gap-4">
-            <ScoreDisplay
-              score={evaluation.total_score || 0}
-              size="lg"
-            />
+            {evaluation.total_score !== null ? (
+              <ScoreDisplay
+                score={evaluation.total_score}
+                size="lg"
+              />
+            ) : (
+              <div className="w-14 h-14 rounded-full bg-cream-200 flex items-center justify-center text-warm-400 text-xs font-medium">
+                待评分
+              </div>
+            )}
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-1">
                 <h3 className="font-medium text-warm-700">

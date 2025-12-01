@@ -1,9 +1,9 @@
 import { notFound } from 'next/navigation'
 import { PageHeader, Card, CardHeader, Badge, Button, ScoreDisplay, Markdown } from '@/components/ui'
 import { getEvaluation } from '@/app/actions/evaluations'
-import { Edit, Trash2 } from 'lucide-react'
 import Link from 'next/link'
 import { DeleteEvaluationButton } from './DeleteEvaluationButton'
+import { EditScoreButton } from './EditScoreButton'
 
 interface Props {
   params: Promise<{ id: string }>
@@ -78,12 +78,24 @@ export default async function EvaluationDetailPage({ params }: Props) {
         <div className="space-y-6">
           {/* 得分 */}
           <Card>
-            <CardHeader title="评测得分" />
+            <CardHeader
+              title="评测得分"
+              action={
+                <EditScoreButton id={id} currentScore={evaluation.total_score} />
+              }
+            />
             <div className="flex items-center justify-center py-4">
-              <ScoreDisplay
-                score={evaluation.total_score || 0}
-                size="lg"
-              />
+              {evaluation.total_score !== null ? (
+                <ScoreDisplay
+                  score={evaluation.total_score}
+                  size="lg"
+                />
+              ) : (
+                <div className="text-warm-400 text-center">
+                  <p className="text-lg">待评分</p>
+                  <p className="text-sm">点击右上角添加分数</p>
+                </div>
+              )}
             </div>
 
             {/* 维度分数 */}
