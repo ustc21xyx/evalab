@@ -34,6 +34,7 @@ export function EvaluationForm({ questions, models, dimensions, preselectedQuest
   )
 
   const [useDetailedScoring, setUseDetailedScoring] = useState(false)
+  const [skipScoring, setSkipScoring] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
 
@@ -60,9 +61,9 @@ export function EvaluationForm({ questions, models, dimensions, preselectedQuest
     setError('')
 
     try {
-      const totalScore = calculateTotalScore()
+      const totalScore = skipScoring ? null : calculateTotalScore()
 
-      const scores = useDetailedScoring
+      const scores = (!skipScoring && useDetailedScoring)
         ? dimensions
             .filter((d) => d.is_default)
             .map((d) => ({
@@ -180,21 +181,37 @@ export function EvaluationForm({ questions, models, dimensions, preselectedQuest
         {/* 打分区域 */}
         <div className="space-y-6">
           <Card>
-            <CardHeader title="打分" />
+            <CardHeader title="打分（可选）" description="可以先保存回答，稍后再打分" />
 
-            <div className="mb-4">
+            <div className="mb-4 space-y-2">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
-                  checked={useDetailedScoring}
-                  onChange={(e) => setUseDetailedScoring(e.target.checked)}
+                  checked={skipScoring}
+                  onChange={(e) => setSkipScoring(e.target.checked)}
                   className="rounded border-warm-300 text-warm-500 focus:ring-warm-500"
                 />
-                <span className="text-sm text-warm-600">使用多维度评分</span>
+                <span className="text-sm text-warm-600">稍后打分</span>
               </label>
+
+              {!skipScoring && (
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={useDetailedScoring}
+                    onChange={(e) => setUseDetailedScoring(e.target.checked)}
+                    className="rounded border-warm-300 text-warm-500 focus:ring-warm-500"
+                  />
+                  <span className="text-sm text-warm-600">使用多维度评分</span>
+                </label>
+              )}
             </div>
 
-            {useDetailedScoring ? (
+            {skipScoring ? (
+              <div className="text-center py-6 text-warm-400">
+                <p>保存后可在评测详情页补充打分</p>
+              </div>
+            ) : useDetailedScoring ? (
               <div className="space-y-4">
                 {dimensions
                   .filter((d) => d.is_default)
@@ -251,7 +268,7 @@ export function EvaluationForm({ questions, models, dimensions, preselectedQuest
                   onChange={(e) => setFormData({ ...formData, total_score: e.target.value })}
                   className="input text-center text-2xl font-bold"
                   placeholder="0"
-                  required={!useDetailedScoring}
+                  required={false}
                 />
               </div>
             )}
